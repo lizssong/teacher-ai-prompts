@@ -75,21 +75,21 @@ export default function Home() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  // 4. 명화 스타일 프롬프트 빌더
+  // 4. 명화 스타일 프롬프트 빌더 (한국어 최적화)
   const artStyles = [
-    { name: "모네 인상주의", desc: "빛과 색채의 순간적 인상을 포착하는 몽환적 화풍", prompt: "Claude Monet style impressionism, soft brushstrokes, vibrant natural light, shimmering reflections" },
-    { name: "반 고흐 후기인상주의", desc: "소용돌이치는 붓터치와 강렬한 감정 표현의 화풍", prompt: "Vincent van Gogh style post-impressionism, swirling brushstrokes, thick impasto texture, intense emotional colors" },
-    { name: "클림트 아르누보", desc: "황금빛 장식과 화려한 패턴이 어우러진 상징주의 화풍", prompt: "Gustav Klimt style Art Nouveau, golden leaf details, intricate mosaic patterns, rich decorative textures" },
-    { name: "지브리 애니메이션", desc: "따뜻하고 감성적인 수채화 풍의 애니메이션 화풍", prompt: "Studio Ghibli style anime illustration, warm nostalgic watercolor background, hand-drawn aesthetic, charming and detailed" },
-    { name: "3D 디즈니/픽사", desc: "귀엽고 입체감 넘치는 고품질 클레이 캐릭터 화풍", prompt: "3D Disney Pixar style, cute clay render, soft volumetric lighting, vibrant colors, expressive cartoon features" },
-    { name: "동화책 일러스트", desc: "아기자기한 색연필 텍스트의 감성 동화 화풍", prompt: "Charming fairytale children's book illustration, colored pencil texture, soft pastel colors, whimsical and cozy" }
+    { name: "모네 인상주의", desc: "빛과 색채의 순간적 인상을 포착하는 몽환적 화풍", prompt: "클로드 모네 인상주의 화풍으로, 부드러운 붓터치와 따뜻하고 화사한 자연광, 물결에 반사되어 아른거리는 신비로운 색채 표현" },
+    { name: "반 고흐 후기인상주의", desc: "소용돌이치는 붓터치와 강렬한 감정 표현의 화풍", prompt: "빈센트 반 고흐 후기 인상주의 화풍으로, 역동적으로 소용돌이치는 굵은 붓터치와 유화 특유의 거친 질감, 강렬하고 감정적인 원색 대비" },
+    { name: "클림트 아르누보", desc: "황금빛 장식과 화려한 패턴이 어우러진 상징주의 화풍", prompt: "구스타프 클림트 아르누보 스타일로, 화려하고 영롱한 황금빛 장식 패턴과 정교한 모자이크 질감, 몽환적이고 장식적인 비주얼" },
+    { name: "지브리 애니메이션", desc: "따뜻하고 감성적인 수채화 풍의 애니메이션 화풍", prompt: "스튜디오 지브리 감성의 부드러운 애니메이션 스타일로, 따뜻하고 정겨운 수채화풍 배경 묘사와 아기자기하고 서정적인 색채" },
+    { name: "3D 디즈니/픽사", desc: "귀엽고 입체감 넘치는 고품질 클레이 캐릭터 화풍", prompt: "3D 디즈니 픽사 3D 캐릭터 디자인 스타일로, 동글동글하고 귀여운 클레이 피규어 느낌과 생동감 넘치는 표정, 부드럽고 입체적인 볼륨 조명" },
+    { name: "동화책 일러스트", desc: "아기자기한 색연필 텍스트의 감성 동화 화풍", prompt: "아기자기하고 따뜻한 어린이 감성 동화책 일러스트 스타일로, 부드러운 파스텔 톤과 섬세한 색연필/크레용 드로잉 질감" }
   ];
 
   const artMoods = [
-    { label: "평화롭고 고요한", value: "peaceful, calm, serene atmosphere" },
-    { label: "몽환적이고 신비로운", value: "dreamy, mystical, magical fantasy vibe" },
-    { label: "밝고 생동감 있는", value: "bright, cheerful, energetic, full of life" },
-    { label: "따뜻하고 아늑한", value: "warm, cozy, nostalgic, soft golden lighting" }
+    { label: "평화롭고 고요한", value: "평화롭고 고요하며 평온한 분위기" },
+    { label: "몽환적이고 신비로운", value: "꿈속을 거니는 듯 몽환적이고 신비로운 판타지 분위기" },
+    { label: "밝고 생동감 있는", value: "밝고 화사하며 웃음과 에너지가 넘치는 생동감 있는 분위기" },
+    { label: "따뜻하고 아늑한", value: "아늑하고 따뜻한 노을빛이 비치는 감성적이고 정겨운 분위기" }
   ];
 
   const handleGenerateArtPrompt = () => {
@@ -104,15 +104,15 @@ export default function Home() {
 
     const selectedStyleObj = artStyles.find(s => s.name === artStyle);
     const stylePrompt = selectedStyleObj ? selectedStyleObj.prompt : "";
-    const moodPrompt = artMood ? `, ${artMood}` : "";
+    const moodPrompt = artMood ? `, 전체적으로 ${artMood}` : "";
     
-    const finalPrompt = `A high-quality educational illustration of [${artSubject}]. Style: ${stylePrompt}${moodPrompt}. Designed for children, friendly, heartwarming, high resolution, 8k --ar 16:9`;
+    const finalPrompt = `[역할: 전문 교육용 AI 아티스트]\n\n주제: [${artSubject}]\n\n화풍 스타일: ${stylePrompt}${moodPrompt}으로 그려줘. 어린이집, 유치원, 초등학교 아이들을 위한 교육용 일러스트인 만큼 친근하고 따뜻한 느낌을 극대화해줘. 디테일이 살아있는 고화질 일러스트로 표현해줘.`;
     
     setGeneratedArtPrompt(finalPrompt);
-    toast.success("맞춤형 아트 프롬프트가 발행되었습니다!");
+    toast.success("맞춤형 한글 아트 프롬프트가 발행되었습니다!");
   };
 
-  // 5. 프롬프트 개선 기능 (시뮬레이션)
+  // 5. 프롬프트 개선 기능 (한국어 시뮬레이션)
   const handleImprovePrompt = () => {
     if (!originalPrompt.trim()) {
       toast.error("개선할 원본 프롬프트를 입력해주세요!");
@@ -123,16 +123,16 @@ export default function Home() {
     setTimeout(() => {
       let improved = "";
       if (improveDirection === "구체적으로") {
-        improved = `[역할: 초등 교육 및 아동 심리 전문가]\n\n당신은 아동 발달 단계를 깊이 이해하고 있는 전문 교사입니다. 내가 제안한 다음 주제에 대해 아이들이 직관적으로 이해할 수 있도록 구체적인 비주얼 요소와 단계별 상호작용 가이드를 포함하여 발전시켜줘.\n\n주제: ${originalPrompt}\n\n[추가된 구체적 요소]\n- 대상 연령 맞춤화 (어린이집/유치원/초등 저학년)\n- 캔바(Canva)에서 바로 활용 가능한 레이아웃 가이드\n- 시각 자료 생성용 상세 영어 프롬프트 동시 제공`;
+        improved = `[역할: 초등 교육 및 아동 심리 전문가]\n\n당신은 아동 발달 단계를 깊이 이해하고 있는 전문 교사입니다. 내가 제안한 다음 주제에 대해 아이들이 직관적으로 이해할 수 있도록 구체적인 비주얼 요소와 단계별 상호작용 가이드를 포함하여 발전시켜줘.\n\n주제: ${originalPrompt}\n\n[구체적인 개선 가이드라인]\n1. 아동 발달 연령층(어린이집/유치원/초등 저학년)에 맞추어 난이도와 어조를 최적화해줘.\n2. 캔바(Canva) 등 디자인 도구에서 레이아웃을 잡을 때 유용한 시각적 대비 및 배치 팁을 알려줘.\n3. ChatGPT 및 제미나이(Gemini)에 바로 복사해서 붙여넣었을 때 최상의 고품질 답변이 나오도록 상세한 상호작용 지침을 더해줘.`;
       } else if (improveDirection === "창의적으로") {
-        improved = `[역할: 창의적 에듀테크 콘텐츠 디렉터]\n\n당신은 교육에 재미를 불어넣는 게이미피케이션(Gamification) 전문가입니다. 다음 프롬프트를 학생들이 주도적으로 참여하고 흥미를 느낄 수 있도록 독창적인 역할극이나 미션 수행 형태로 완전히 새롭게 리디자인해줘.\n\n원본 아이디어: ${originalPrompt}\n\n[창의적 요소]\n- 리즈, 요코, 조코 캐릭터 스토리텔링 연계\n- 미션 카드 형태의 구조화\n- ChatGPT 및 제미나이 멀티모달 상호작용 설계`;
+        improved = `[역할: 창의적 에듀테크 콘텐츠 디렉터]\n\n당신은 교육에 재미를 불어넣는 게이미피케이션(Gamification) 전문가입니다. 다음 프롬프트를 학생들이 주도적으로 참여하고 흥미를 느낄 수 있도록 독창적인 역할극이나 미션 수행 형태로 완전히 새롭게 리디자인해줘.\n\n원본 아이디어: ${originalPrompt}\n\n[창의적 요소 추가]\n1. 리즈, 요코, 조코와 같은 친근한 캐릭터 스토리텔링을 연계하여 몰입도를 높여줘.\n2. 단순 질문형이 아닌, 학생들이 직접 해결해야 하는 '미션 카드' 형태로 구조화해줘.\n3. 텍스트뿐만 아니라 이미지나 짧은 퀴즈 상호작용이 일어나도록 멀티모달 상호작용을 설계해줘.`;
       } else {
-        improved = `[역할: 수석 교무교사 및 교육행정 전문가]\n\n당신은 공문서 및 학부모 소통 양식에 정통한 교육 행정 전문가입니다. 다음 내용을 학교 및 교육청 공식 보고서, 혹은 학부모 알림장(키즈노트)에 바로 사용할 수 있도록 격식 있고 품격 있는 문체로 깔끔하게 구조화해줘.\n\n내용: ${originalPrompt}\n\n[개선 방향]\n- 두괄식 개조식 요약 적용\n- 평가제 및 장학 지도 지표 키워드 반영\n- 신뢰감을 주는 정중하고 따뜻한 어조 최적화`;
+        improved = `[역할: 수석 교무교사 및 교육행정 전문가]\n\n당신은 공문서 및 학부모 소통 양식에 정통한 교육 행정 전문가입니다. 다음 내용을 학교 및 교육청 공식 보고서, 혹은 학부모 알림장(키즈노트)에 바로 사용할 수 있도록 격식 있고 품격 있는 문체로 깔끔하게 구조화해줘.\n\n내용: ${originalPrompt}\n\n[전문가형 개선 사항]\n1. 바쁜 학부모님들과 교장/교감 선생님이 한눈에 파악할 수 있도록 두괄식 개조식 요약을 적용해줘.\n2. 교육부/교육청 장학 지도 및 어린이집 평가제 지표 키워드를 반영해 전문성을 높여줘.\n3. 신뢰감을 주면서도 따뜻함이 느껴지는 정중한 상호 소통형 어조로 문장을 매끄럽게 다듬어줘.`;
       }
 
       setImprovedPrompt(improved);
       setIsImproving(false);
-      toast.success("프롬프트가 더 강력하게 개선되었습니다!");
+      toast.success("한글 프롬프트가 더 강력하게 개선되었습니다!");
     }, 1200);
   };
 
@@ -149,7 +149,7 @@ export default function Home() {
               <h1 className="text-xl font-bold tracking-tight text-stone-900 flex items-center gap-2">
                 교사 AI 프롬프트 발행기
                 <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 border-emerald-200 font-medium">
-                  교사 전용 v1.0
+                  한국어 지원 v1.1
                 </Badge>
               </h1>
               <p className="text-xs text-stone-500 font-medium">송민경 AI융합콘텐츠강사 × 위드AI솔루션</p>
@@ -179,11 +179,11 @@ export default function Home() {
             <h2 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-stone-900 leading-tight">
               수업 준비부터 행정 업무까지,<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-amber-500">
-                원클릭 AI 프롬프트 발행기
+                원클릭 한글 프롬프트 발행기
               </span>
             </h2>
             <p className="text-stone-600 text-base lg:text-lg max-w-xl leading-relaxed">
-              캔바(Canva), ChatGPT, 제미나이(Gemini), Flow에 최적화된 고품질 교육용 프롬프트입니다. 영유아 맞춤형 아트부터 학부모 소통 키즈노트까지 지금 바로 경험해 보세요.
+              캔바(Canva), ChatGPT, 제미나이(Gemini), Flow에 최적화된 고품질 한글 교육용 프롬프트입니다. 영유아 맞춤형 아트부터 학부모 소통 키즈노트까지 지금 바로 경험해 보세요.
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
               <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-stone-200 shadow-sm text-xs font-medium">
@@ -347,7 +347,7 @@ export default function Home() {
                         </>
                       ) : (
                         <>
-                          <Copy className="w-4 h-4" /> 프롬프트 복사하기
+                          <Copy className="w-4 h-4" /> 한글 프롬프트 복사하기
                         </>
                       )}
                     </Button>
@@ -445,7 +445,7 @@ export default function Home() {
                     onClick={handleGenerateArtPrompt}
                     className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold py-6"
                   >
-                    <Sparkles className="w-4 h-4 mr-2" /> 나만의 아트 프롬프트 발행하기
+                    <Sparkles className="w-4 h-4 mr-2" /> 한글 아트 프롬프트 발행하기
                   </Button>
                 </div>
               </div>
@@ -456,7 +456,7 @@ export default function Home() {
                   <div className="space-y-4 flex-grow">
                     <div className="flex items-center justify-between border-b border-stone-100 pb-3">
                       <h3 className="text-base font-bold text-stone-900 flex items-center gap-2">
-                        <Sparkles className="w-5 h-5 text-amber-500" /> 발행된 맞춤형 프롬프트
+                        <Sparkles className="w-5 h-5 text-amber-500" /> 발행된 맞춤형 한글 프롬프트
                       </h3>
                       {generatedArtPrompt && (
                         <Button
@@ -483,7 +483,7 @@ export default function Home() {
                         <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl text-xs text-amber-800 space-y-2">
                           <p className="font-bold">💡 추천 사용법:</p>
                           <p className="leading-relaxed">
-                            발행된 영문 프롬프트를 복사하여 <strong>ChatGPT (DALL-E 3)</strong>, <strong>캔바 AI 이미지 생성기</strong>에 붙여넣으면 원하는 스타일의 교육용 일러스트가 고화질로 생성됩니다.
+                            발행된 한글 프롬프트를 복사하여 <strong>ChatGPT (DALL-E 3)</strong>, <strong>캔바 AI 이미지 생성기</strong>에 붙여넣으면 원하는 스타일의 교육용 일러스트가 고화질로 생성됩니다.
                           </p>
                         </div>
                       </div>
@@ -491,7 +491,7 @@ export default function Home() {
                       <div className="py-20 text-center text-stone-400 space-y-3">
                         <ImageIcon className="w-12 h-12 text-stone-200 mx-auto" />
                         <p className="font-bold text-sm">왼쪽에서 스타일과 주제를 입력한 후 발행 버튼을 누르세요!</p>
-                        <p className="text-xs text-stone-400">교실 꾸미기, 교구 제작, 그림책 만들기에 유용한 아트 프롬프트가 자동 생성됩니다.</p>
+                        <p className="text-xs text-stone-400">교실 꾸미기, 교구 제작, 그림책 만들기에 유용한 한글 아트 프롬프트가 자동 생성됩니다.</p>
                       </div>
                     )}
                   </div>
@@ -512,7 +512,7 @@ export default function Home() {
           {/* 탭 3: 프롬프트 개선기 */}
           <TabsContent value="improver" className="space-y-8">
             <div className="grid lg:grid-cols-12 gap-8">
-              {/* 왼쪽: 입력 및 개선 옵션 */}
+              {/* [이전 코드와 동일하되, 한글 개선 방향 반영] */}
               <div className="lg:col-span-6 space-y-6">
                 <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm space-y-6">
                   <div className="space-y-3">
@@ -577,7 +577,7 @@ export default function Home() {
                   <div className="space-y-4 flex-grow">
                     <div className="flex items-center justify-between border-b border-stone-100 pb-3">
                       <h3 className="text-base font-bold text-stone-900 flex items-center gap-2">
-                        <Sparkles className="w-5 h-5 text-emerald-600" /> 개선 완료된 고품질 프롬프트
+                        <Sparkles className="w-5 h-5 text-emerald-600" /> 개선 완료된 고품질 한글 프롬프트
                       </h3>
                       {improvedPrompt && (
                         <Button
