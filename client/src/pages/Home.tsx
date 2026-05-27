@@ -16,6 +16,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("전체 보기");
   const [selectedTool, setSelectedTool] = useState<string>("all");
+  const [selectedTarget, setSelectedTarget] = useState<string>("all"); // "all": 전체, "kinder": 유치원/어린이집, "elem": 초등학교
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -42,6 +43,11 @@ export default function Home() {
       // 도구 필터
       const matchesTool = 
         selectedTool === "all" || item.tools.includes(selectedTool as any);
+
+      // 대상별 필터 (유치원/초등학교)
+      // item.target이 "all"이거나 선택한 대상과 일치할 때 매칭
+      const matchesTarget = 
+        selectedTarget === "all" || item.target === "all" || item.target === selectedTarget;
       
       // 검색어 필터
       const matchesSearch = 
@@ -53,9 +59,9 @@ export default function Home() {
       // 즐겨찾기 필터
       const matchesFavorite = !showFavoritesOnly || favorites.includes(item.id);
 
-      return matchesCategory && matchesTool && matchesSearch && matchesFavorite;
+      return matchesCategory && matchesTool && matchesTarget && matchesSearch && matchesFavorite;
     });
-  }, [searchQuery, selectedCategory, selectedTool, favorites, showFavoritesOnly]);
+  }, [searchQuery, selectedCategory, selectedTool, selectedTarget, favorites, showFavoritesOnly]);
 
   // 2. 즐겨찾기 토글
   const toggleFavorite = (id: string) => {
@@ -235,6 +241,46 @@ export default function Home() {
           <TabsContent value="prompts" className="space-y-8">
             {/* 검색 및 필터 패널 */}
             <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm space-y-6">
+              {/* 대상별 필터 (유치원/초등학교) - 상단에 가장 크게 배치 */}
+              <div className="flex flex-col space-y-2">
+                <span className="text-xs font-bold text-stone-400 uppercase tracking-wider">교과 및 보육 대상별 필터</span>
+                <div className="grid grid-cols-3 gap-2 p-1 bg-stone-100 rounded-xl border border-stone-200">
+                  <Button
+                    variant={selectedTarget === "all" ? "default" : "ghost"}
+                    onClick={() => setSelectedTarget("all")}
+                    className={`rounded-lg py-2.5 text-xs font-bold h-auto transition-all ${
+                      selectedTarget === "all" 
+                        ? "bg-white text-stone-900 shadow-sm hover:bg-white" 
+                        : "text-stone-500 hover:text-stone-900 hover:bg-stone-50"
+                    }`}
+                  >
+                    🧸 전체 대상
+                  </Button>
+                  <Button
+                    variant={selectedTarget === "kinder" ? "default" : "ghost"}
+                    onClick={() => setSelectedTarget("kinder")}
+                    className={`rounded-lg py-2.5 text-xs font-bold h-auto transition-all ${
+                      selectedTarget === "kinder" 
+                        ? "bg-amber-500 text-white shadow-sm hover:bg-amber-600" 
+                        : "text-stone-500 hover:text-amber-600 hover:bg-amber-50/50"
+                    }`}
+                  >
+                    👶 어린이집 & 유치원 (영유아)
+                  </Button>
+                  <Button
+                    variant={selectedTarget === "elem" ? "default" : "ghost"}
+                    onClick={() => setSelectedTarget("elem")}
+                    className={`rounded-lg py-2.5 text-xs font-bold h-auto transition-all ${
+                      selectedTarget === "elem" 
+                        ? "bg-emerald-600 text-white shadow-sm hover:bg-emerald-700" 
+                        : "text-stone-500 hover:text-emerald-700 hover:bg-emerald-50/50"
+                    }`}
+                  >
+                    🎒 초등학교 (아동)
+                  </Button>
+                </div>
+              </div>
+
               <div className="grid md:grid-cols-12 gap-4">
                 <div className="md:col-span-8 relative">
                   <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-stone-400 w-5 h-5" />
@@ -293,9 +339,21 @@ export default function Home() {
                 <Card key={item.id} className="bg-white border-stone-200 hover:border-emerald-300 hover:shadow-md transition-all rounded-2xl overflow-hidden flex flex-col h-full">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between mb-2">
-                      <Badge variant="outline" className="bg-stone-50 border-stone-200 text-stone-600 text-[10px] font-bold">
-                        {item.subCategory}
-                      </Badge>
+                      <div className="flex items-center gap-1.5">
+                        <Badge variant="outline" className="bg-stone-50 border-stone-200 text-stone-600 text-[10px] font-bold">
+                          {item.subCategory}
+                        </Badge>
+                        <Badge 
+                          variant="secondary" 
+                          className={`text-[9px] font-bold px-1.5 py-0 rounded ${
+                            item.target === "kinder" ? "bg-amber-100 text-amber-800 border border-amber-200" :
+                            item.target === "elem" ? "bg-emerald-100 text-emerald-800 border border-emerald-200" :
+                            "bg-stone-100 text-stone-600 border border-stone-200"
+                          }`}
+                        >
+                          {item.target === "kinder" ? "영유아" : item.target === "elem" ? "초등" : "공통"}
+                        </Badge>
+                      </div>
                       <Button 
                         variant="ghost" 
                         size="icon" 
